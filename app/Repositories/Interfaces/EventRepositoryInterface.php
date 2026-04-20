@@ -1,0 +1,18 @@
+<?php
+
+interface EventRepositoryInterface
+{
+    public function all();
+    public function find($id);
+    public function create(array $data);
+    public function update($id, array $data);
+    public function delete($id);
+
+
+    public function getUpcomingEvents();
+    public function filterBydateRange(string $from, string $to);
+    public function getAvailable();
+    public function getByVenue(int $venueId);
+    public function searchByTitle(string $keyword);
+
+}   
