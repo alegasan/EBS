@@ -8,7 +8,7 @@ interface EventRepositoryInterface
     public function update($id, array $data);
     public function delete($id);
 
-
+    public function findByIdForUpdate(int $id);
     public function getUpcomingEvents();
     public function filterBydateRange(string $from, string $to);
     public function getAvailable();

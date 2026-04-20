@@ -1,8 +1,14 @@
 <?php
 
+<?php
 
-class BookingRepository implements BookingRepositoryInterface
-{
+namespace App\Repositories;
+
+use App\Models\Booking;
+use Exception;
+
+class BookingRepository implements BookingRepositoryInterface {
+
     public function getAll()
     {
         return Booking::with(['event', 'attendee'])->latest()->get();
@@ -66,6 +72,11 @@ class BookingRepository implements BookingRepositoryInterface
     public function cancelBooking(int $id)
     {
         $booking = $this->findById($id);
+
+        if($booking->status === 'cancelled') {
+            throw new Exception('Booking is already cancelled');
+        }
+
         $booking->update(['status' => 'cancelled']);
         return $booking;
     }

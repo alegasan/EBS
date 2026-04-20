@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateBookingRequest;
 use App\Models\Booking;
+use App\Services\BookingService;
 use Illuminate\Http\Request;
+use Exception;
 
 class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+        protected BookingService $bookingService,
+    ) {}
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(CreateBookingRequest $request)
     {
-        //
+        try {
+            $booking = $this->bookingService->book($request->validated());
+
+            return response()->json(['message' => 'Booking successful', 'booking' => $booking], 201);
+        } catch (Exception $e) {
+            report($e); 
+            return response()->json(['message' => 'Booking failed'], 400);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Booking $booking)
+    public function confirm(int $id)
     {
-        //
+        try {
+            $booking = $this->bookingService->confirm($id);
+
+            return response()->json([
+                'message' => 'Booking confirmed successfully', 
+                'booking' => $booking
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Confirmation failed',
+            ], 400);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Booking $booking)
-    {
-        //
+    public function cancel(int $id)
+    {   
+        try {
+            $this->bookingService->cancel($id);
+
+            return response()->json(['message' => 'Booking cancelled successfully']);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Cancellation failed',
+            ], 400);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Booking $booking)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Booking $booking)
-    {
-        //
-    }
 }

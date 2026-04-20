@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Repositories;
+use App\Repositories\EventRepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use App\Models\Event;
+
 class EventRepository implements EventRepositoryInterface
 {
     public function getAll()
@@ -28,6 +33,11 @@ class EventRepository implements EventRepositoryInterface
     public function delete(int $id)
     {
         return Event::destroy($id);
+    }
+
+    public function findByIdForUpdate(int $id)
+    {
+        return Event::lockForUpdate()->find($id);
     }
 
   

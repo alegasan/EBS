@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use App\Models\Venue;
+use App\Models\Booking;
+use App\Models\Attendee;
 
 #[Fillable(['venue_id', 'title', 'description', 'start_date', 'end_date', 'max_attendees', 'status'])]
 class Event extends Model
