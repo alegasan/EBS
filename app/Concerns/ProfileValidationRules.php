@@ -2,7 +2,7 @@
 
 namespace App\Concerns;
 
-use App\Models\User;
+use App\Models\Attendee;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
 
@@ -13,11 +13,11 @@ trait ProfileValidationRules
      *
      * @return array<string, array<int, ValidationRule|array<mixed>|string>>
      */
-    protected function profileRules(?int $userId = null): array
+    protected function profileRules(?int $attendeeId = null): array
     {
         return [
             'name' => $this->nameRules(),
-            'email' => $this->emailRules($userId),
+            'email' => $this->emailRules($attendeeId),
         ];
     }
 
@@ -36,16 +36,16 @@ trait ProfileValidationRules
      *
      * @return array<int, ValidationRule|array<mixed>|string>
      */
-    protected function emailRules(?int $userId = null): array
+    protected function emailRules(?int $attendeeId = null): array
     {
         return [
             'required',
             'string',
             'email',
             'max:255',
-            $userId === null
-                ? Rule::unique(User::class)
-                : Rule::unique(User::class)->ignore($userId),
+            $attendeeId === null
+                ? Rule::unique(Attendee::class)
+                : Rule::unique(Attendee::class)->ignore($attendeeId),
         ];
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-<?php
-
 namespace App\Repositories;
 
 use App\Models\Booking;

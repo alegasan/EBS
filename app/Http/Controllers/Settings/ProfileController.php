@@ -43,9 +43,7 @@ class ProfileController extends Controller
         return to_route('profile.edit');
     }
 
-    /**
-     * Delete the user's profile.
-     */
+ 
     public function destroy(ProfileDeleteRequest $request): RedirectResponse
     {
         $user = $request->user();
