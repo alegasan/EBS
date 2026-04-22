@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Booking;
-use App\Repositories\BookingRepositoryInterface;
-use App\Repositories\EventRepositoryInterface;
+use App\Repositories\Interfaces\BookingRepositoryInterface;
+use App\Repositories\Interfaces\EventRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 

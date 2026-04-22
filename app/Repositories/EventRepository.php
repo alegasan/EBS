@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Repositories;
-use App\Repositories\EventRepositoryInterface;
+
+use App\Repositories\Interfaces\EventRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use App\Models\Event;
 
@@ -67,7 +68,7 @@ class EventRepository implements EventRepositoryInterface
             ->where('start_date', '>', now())
             ->withCount([
                 'bookings as booked_seats' => fn ($q) => $q->where('status', '!=', 'cancelled')
-                    ->select(DB::raw('SUM(seats)')),
+                    ->select(DB::raw('COALESCE(SUM(seats), 0)')),
             ])
             ->havingRaw('max_attendees > COALESCE(booked_seats, 0)')
             ->get();

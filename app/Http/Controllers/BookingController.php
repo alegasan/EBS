@@ -6,6 +6,7 @@ use App\Http\Requests\CreateBookingRequest;
 use App\Models\Booking;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Exception;
 
 class BookingController extends Controller
@@ -16,7 +17,7 @@ class BookingController extends Controller
 
     public function index()
     {
-        //
+        return Inertia::render('Bookings/Index');
     }
 
     public function create()

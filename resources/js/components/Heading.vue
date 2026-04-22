@@ -11,7 +11,8 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <header :class="variant === 'small' ? '' : 'mb-8 space-y-0.5'">
+    <div >
+        <header :class="variant === 'small' ? '' : 'mb-8 space-y-0.5'">
         <h2
             :class="
                 variant === 'small'
@@ -25,4 +26,6 @@ withDefaults(defineProps<Props>(), {
             {{ description }}
         </p>
     </header>
+    </div>
+    
 </template>

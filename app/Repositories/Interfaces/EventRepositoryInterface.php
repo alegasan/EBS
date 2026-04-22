@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Repositories\Interfaces;
+
 interface EventRepositoryInterface
 {
     public function getAll();
@@ -10,7 +12,7 @@ interface EventRepositoryInterface
 
     public function findByIdForUpdate(int $id);
     public function getUpcomingEvents();
-    public function filterBydateRange(string $from, string $to);
+    public function filterByDateRange(string $from, string $to);
     public function getAvailable();
     public function getByVenue(int $venueId);
     public function searchByTitle(string $keyword);

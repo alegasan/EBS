@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Booking;
+use App\Repositories\Interfaces\BookingRepositoryInterface;
 use Exception;
 
 class BookingRepository implements BookingRepositoryInterface {
@@ -22,14 +23,14 @@ class BookingRepository implements BookingRepositoryInterface {
         return Booking::create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
         $booking = $this->findById($id);
         $booking->update($data);
         return $booking;
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
         return Booking::destroy($id);
     }

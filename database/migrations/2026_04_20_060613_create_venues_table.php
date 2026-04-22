@@ -15,7 +15,7 @@ return new class extends Migration
              $table->id();
             $table->string('name')->index();
             $table->string('location');
-            $table->integer('capacity');
+            $table->unsignedInteger('capacity');
             $table->timestamps();
         });
     }

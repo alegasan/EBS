@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->integer('max_attendees');
+            $table->unsignedInteger('max_attendees');
             $table->enum('status', ['upcoming', 'ongoing', 'completed', 'cancelled'])
             ->default('upcoming');
             $table->timestamps();
