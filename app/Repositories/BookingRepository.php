@@ -6,8 +6,8 @@ use App\Models\Booking;
 use App\Repositories\Interfaces\BookingRepositoryInterface;
 use Exception;
 
-class BookingRepository implements BookingRepositoryInterface {
-
+class BookingRepository implements BookingRepositoryInterface
+{
     public function getAll()
     {
         return Booking::with(['event', 'attendee'])->latest()->get();
@@ -27,6 +27,7 @@ class BookingRepository implements BookingRepositoryInterface {
     {
         $booking = $this->findById($id);
         $booking->update($data);
+
         return $booking;
     }
 
@@ -35,7 +36,6 @@ class BookingRepository implements BookingRepositoryInterface {
         return Booking::destroy($id);
     }
 
-   
     public function getByEvent(int $eventId)
     {
         return Booking::with('attendee')
@@ -43,7 +43,6 @@ class BookingRepository implements BookingRepositoryInterface {
             ->get();
     }
 
-  
     public function getByAttendee(int $attendeeId)
     {
         return Booking::with('event')
@@ -60,7 +59,6 @@ class BookingRepository implements BookingRepositoryInterface {
             ->exists();
     }
 
-  
     public function getTotalBookedSeats(int $eventId): int
     {
         return Booking::where('event_id', $eventId)
@@ -72,19 +70,26 @@ class BookingRepository implements BookingRepositoryInterface {
     {
         $booking = $this->findById($id);
 
-        if($booking->status === 'cancelled') {
+        if ($booking->status === 'cancelled') {
             throw new Exception('Booking is already cancelled');
         }
 
         $booking->update(['status' => 'cancelled']);
+
         return $booking;
     }
 
-  
     public function confirmBooking(int $id)
     {
+
         $booking = $this->findById($id);
+
+        if ($booking->status === 'cancelled') {
+            throw new Exception('Cannot confirm a cancelled booking');
+        }
+
         $booking->update(['status' => 'confirmed']);
+
         return $booking;
     }
 }

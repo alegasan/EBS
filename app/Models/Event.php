@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Database\Factories\EventFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use App\Models\Venue;
-use App\Models\Booking;
-use App\Models\Attendee;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 #[Fillable(['venue_id', 'title', 'description', 'start_date', 'end_date', 'max_attendees', 'status'])]
 class Event extends Model
 {
+    /** @use HasFactory<EventFactory> */
+    use HasFactory;
+
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
