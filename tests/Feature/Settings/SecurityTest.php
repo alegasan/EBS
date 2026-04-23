@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\Attendee;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
@@ -13,9 +13,9 @@ test('security page is displayed', function () {
         'confirmPassword' => true,
     ]);
 
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
-    $this->actingAs($user)
+    $this->actingAs($attendee)
         ->withSession(['auth.password_confirmed_at' => time()])
         ->get(route('security.edit'))
         ->assertInertia(fn (Assert $page) => $page
@@ -28,14 +28,14 @@ test('security page is displayed', function () {
 test('security page requires password confirmation when enabled', function () {
     $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     Features::twoFactorAuthentication([
         'confirm' => true,
         'confirmPassword' => true,
     ]);
 
-    $response = $this->actingAs($user)
+    $response = $this->actingAs($attendee)
         ->get(route('security.edit'));
 
     $response->assertRedirect(route('password.confirm'));
@@ -44,14 +44,14 @@ test('security page requires password confirmation when enabled', function () {
 test('security page does not require password confirmation when disabled', function () {
     $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     Features::twoFactorAuthentication([
         'confirm' => true,
         'confirmPassword' => false,
     ]);
 
-    $this->actingAs($user)
+    $this->actingAs($attendee)
         ->get(route('security.edit'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
@@ -64,9 +64,9 @@ test('security page renders without two factor when feature is disabled', functi
 
     config(['fortify.features' => []]);
 
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
-    $this->actingAs($user)
+    $this->actingAs($attendee)
         ->get(route('security.edit'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
@@ -78,10 +78,10 @@ test('security page renders without two factor when feature is disabled', functi
 });
 
 test('password can be updated', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->from(route('security.edit'))
         ->put(route('user-password.update'), [
             'current_password' => 'password',
@@ -93,14 +93,14 @@ test('password can be updated', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect(route('security.edit'));
 
-    expect(Hash::check('new-password', $user->refresh()->password))->toBeTrue();
+    expect(Hash::check('new-password', $attendee->refresh()->password))->toBeTrue();
 });
 
 test('correct password must be provided to update password', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->from(route('security.edit'))
         ->put(route('user-password.update'), [
             'current_password' => 'wrong-password',

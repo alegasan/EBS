@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\Attendee;
 use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 
@@ -20,16 +20,16 @@ test('two factor challenge can be rendered', function () {
         'confirmPassword' => true,
     ]);
 
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
-    $user->forceFill([
+    $attendee->forceFill([
         'two_factor_secret' => encrypt('test-secret'),
         'two_factor_recovery_codes' => encrypt(json_encode(['code1', 'code2'])),
         'two_factor_confirmed_at' => now(),
     ])->save();
 
     $this->post(route('login'), [
-        'email' => $user->email,
+        'email' => $attendee->email,
         'password' => 'password',
     ]);
 

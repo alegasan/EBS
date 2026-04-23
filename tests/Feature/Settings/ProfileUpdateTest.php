@@ -1,22 +1,22 @@
 <?php
 
-use App\Models\User;
+use App\Models\Attendee;
 
 test('profile page is displayed', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->get(route('profile.edit'));
 
     $response->assertOk();
 });
 
 test('profile information can be updated', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->patch(route('profile.update'), [
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -26,35 +26,35 @@ test('profile information can be updated', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect(route('profile.edit'));
 
-    $user->refresh();
+    $attendee->refresh();
 
-    expect($user->name)->toBe('Test User');
-    expect($user->email)->toBe('test@example.com');
-    expect($user->email_verified_at)->toBeNull();
+    expect($attendee->name)->toBe('Test User');
+    expect($attendee->email)->toBe('test@example.com');
+    expect($attendee->email_verified_at)->toBeNull();
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->patch(route('profile.update'), [
             'name' => 'Test User',
-            'email' => $user->email,
+            'email' => $attendee->email,
         ]);
 
     $response
         ->assertSessionHasNoErrors()
         ->assertRedirect(route('profile.edit'));
 
-    expect($user->refresh()->email_verified_at)->not->toBeNull();
+    expect($attendee->refresh()->email_verified_at)->not->toBeNull();
 });
 
 test('user can delete their account', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->delete(route('profile.destroy'), [
             'password' => 'password',
         ]);
@@ -64,14 +64,14 @@ test('user can delete their account', function () {
         ->assertRedirect(route('home'));
 
     $this->assertGuest();
-    expect($user->fresh())->toBeNull();
+    expect($attendee->fresh())->toBeNull();
 });
 
 test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
     $response = $this
-        ->actingAs($user)
+        ->actingAs($attendee)
         ->from(route('profile.edit'))
         ->delete(route('profile.destroy'), [
             'password' => 'wrong-password',
@@ -81,5 +81,5 @@ test('correct password must be provided to delete account', function () {
         ->assertSessionHasErrors('password')
         ->assertRedirect(route('profile.edit'));
 
-    expect($user->fresh())->not->toBeNull();
+    expect($attendee->fresh())->not->toBeNull();
 });

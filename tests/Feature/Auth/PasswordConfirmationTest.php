@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\User;
+use App\Models\Attendee;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('confirm password screen can be rendered', function () {
-    $user = User::factory()->create();
+    $attendee = Attendee::factory()->create();
 
-    $response = $this->actingAs($user)->get(route('password.confirm'));
+    $response = $this->actingAs($attendee)->get(route('password.confirm'));
 
     $response->assertOk();
 
