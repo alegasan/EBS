@@ -60,6 +60,14 @@ jobs:
       - name: Copy Environment File
         run: cp .env.example .env
 
+      - name: Configure Database for Testing
+        run: |
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=ebs" >> .env
+          echo "DB_USERNAME=root" >> .env
+
       - name: Generate Application Key
         run: php artisan key:generate
 
