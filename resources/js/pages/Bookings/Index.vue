@@ -2,6 +2,8 @@
 import { Head } from '@inertiajs/vue3';
 import Heading  from '@/components/Heading.vue';
 import { index as bookings } from '@/routes/bookings';
+import { create } from '@/routes/bookings';
+import { Link } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-vue-next';
 defineOptions({
@@ -29,10 +31,12 @@ defineOptions({
             as-child
             class="cursor-pointer"
         >
-            <a href="#"> 
+            <Link 
+                :href="create()"> 
                 <PlusIcon class="mr-2" />
                 Create Booking
-            </a>        </Button>
+            </Link>  
+        </Button>
     </header>
     </div>
 </template>

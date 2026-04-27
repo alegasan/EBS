@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateBookingRequest;
-use App\Models\Booking;
 use App\Services\BookingService;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Exception;
+use Inertia\Inertia;
 
 class BookingController extends Controller
 {
@@ -22,7 +20,7 @@ class BookingController extends Controller
 
     public function create()
     {
-        //
+        return Inertia::render('Bookings/Create');
     }
 
     public function store(CreateBookingRequest $request)
@@ -32,7 +30,8 @@ class BookingController extends Controller
 
             return response()->json(['message' => 'Booking successful', 'booking' => $booking], 201);
         } catch (Exception $e) {
-            report($e); 
+            report($e);
+
             return response()->json(['message' => 'Booking failed'], 400);
         }
     }
@@ -43,8 +42,8 @@ class BookingController extends Controller
             $booking = $this->bookingService->confirm($id);
 
             return response()->json([
-                'message' => 'Booking confirmed successfully', 
-                'booking' => $booking
+                'message' => 'Booking confirmed successfully',
+                'booking' => $booking,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -54,7 +53,7 @@ class BookingController extends Controller
     }
 
     public function cancel(int $id)
-    {   
+    {
         try {
             $this->bookingService->cancel($id);
 
@@ -65,6 +64,4 @@ class BookingController extends Controller
             ], 400);
         }
     }
-
-
 }

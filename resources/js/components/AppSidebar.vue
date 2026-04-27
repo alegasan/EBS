@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as bookings } from '@/routes/bookings';
+import { index as events } from '@/routes/events';
 import type { NavItem } from '@/types';
 
 
@@ -30,6 +31,12 @@ const mainNavItems: NavItem[] = [
         href: bookings(),
         icon: BookOpen,
     },
+
+    {
+        title: 'Events',
+        href: events(),
+        icon: BookOpen,
+    }
 ];
 
 </script>
