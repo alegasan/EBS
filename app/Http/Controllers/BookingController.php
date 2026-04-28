@@ -16,9 +16,9 @@ class BookingController extends Controller
     public function index()
     {   
 
-         $bookings = $this->bookingService->getAllBookings(
-            request()->get('per_page', 15)
-         );
+        $perPage = min(max((int) request()->get('per_page', 15), 1), 100);
+
+        $bookings = $this->bookingService->getAllBookings($perPage);
         return Inertia::render('Bookings/Index',
             [
                 'bookings' => $bookings,
