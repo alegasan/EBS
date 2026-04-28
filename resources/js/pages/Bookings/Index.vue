@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import { PlusIcon } from 'lucide-vue-next';
 import Heading  from '@/components/Heading.vue';
+import { Button } from '@/components/ui/button';
 import { index as bookings } from '@/routes/bookings';
 import { create } from '@/routes/bookings';
-import { Link } from '@inertiajs/vue3';
-import { Button } from '@/components/ui/button';
-import { PlusIcon } from 'lucide-vue-next';
 defineOptions({
     layout: {
         breadcrumbs: [

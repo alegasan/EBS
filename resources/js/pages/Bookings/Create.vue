@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3'
 import Heading  from '@/components/Heading.vue'; 
 import { index } from '@/routes/bookings';
-import { useForm } from '@inertiajs/vue3'
 defineOptions({
     layout: {
         breadcrumbs: [
