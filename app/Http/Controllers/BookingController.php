@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateBookingRequest;
+use App\Http\Requests\BookingRequest;
 use App\Services\BookingService;
 use Exception;
 use Inertia\Inertia;
@@ -14,8 +14,16 @@ class BookingController extends Controller
     ) {}
 
     public function index()
-    {
-        return Inertia::render('Bookings/Index');
+    {   
+
+         $bookings = $this->bookingService->getAllBookings(
+            request()->get('per_page', 15)
+         );
+        return Inertia::render('Bookings/Index',
+            [
+                'bookings' => $bookings,
+            ]
+        );
     }
 
     public function create()
@@ -23,7 +31,7 @@ class BookingController extends Controller
         return Inertia::render('Bookings/Create');
     }
 
-    public function store(CreateBookingRequest $request)
+    public function store(BookingRequest $request)
     {
         try {
             $booking = $this->bookingService->book($request->validated());

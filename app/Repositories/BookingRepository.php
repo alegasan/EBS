@@ -92,4 +92,9 @@ class BookingRepository implements BookingRepositoryInterface
 
         return $booking;
     }
+
+    public function getPaginated(int $perPage)
+    {
+        return Booking::with(['event', 'attendee'])->latest()->paginate($perPage);
+    }
 }

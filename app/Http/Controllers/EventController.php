@@ -5,15 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Services\EventServices;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+
+    public function __construct(
+        protected EventServices $eventServices,
+    ) {}
+
     public function index()
     {
-        return Inertia::render('Events/Index');
+        return Inertia::render('Events/Index',
+            [
+                'events' => $this->eventServices->getAllEvents(),
+            ]
+        );
     }
 
     /**

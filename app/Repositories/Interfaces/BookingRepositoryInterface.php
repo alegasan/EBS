@@ -25,4 +25,6 @@ interface BookingRepositoryInterface
     public function cancelBooking(int $bookingId);
 
     public function confirmBooking(int $bookingId);
+
+    public function getPaginated(int $perPage);
 }

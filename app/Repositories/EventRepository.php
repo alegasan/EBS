@@ -90,4 +90,6 @@ class EventRepository implements EventRepositoryInterface
             ->with('venue')
             ->get();
     }
+
+
 }

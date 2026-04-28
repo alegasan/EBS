@@ -29,11 +29,7 @@ class BookingService
                 throw new Exception('You have already booked this event');
             }
 
-            $requestedSeats = filter_var($data['seats'] ?? 1, FILTER_VALIDATE_INT);
-
-            if ($requestedSeats === false || $requestedSeats < 1) {
-                throw new Exception('Invalid number of seats requested');
-            }
+            $requestedSeats = $data['seats'];
 
             $bookedSeats = $this->bookingRepo->getTotalBookedSeats($data['event_id']);
 
@@ -66,4 +62,11 @@ class BookingService
     {
         return $this->bookingRepo->cancelBooking($id);
     }
+
+
+    public function getAllBookings(int $perPage = 15)
+    {
+        return $this->bookingRepo->getPaginated($perPage);
+    }
+
 }
