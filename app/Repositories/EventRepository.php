@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Event;
 use App\Repositories\Interfaces\EventRepositoryInterface;
 use Illuminate\Support\Facades\DB;
-use App\Models\Event;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventRepository implements EventRepositoryInterface
 {
@@ -41,7 +42,6 @@ class EventRepository implements EventRepositoryInterface
         return Event::lockForUpdate()->find($id);
     }
 
-  
     public function getUpcomingEvents()
     {
         return Event::with('venue')
@@ -51,7 +51,6 @@ class EventRepository implements EventRepositoryInterface
             ->get();
     }
 
-   
     public function filterByDateRange(string $from, string $to)
     {
         return Event::with('venue')
@@ -60,10 +59,10 @@ class EventRepository implements EventRepositoryInterface
             ->get();
     }
 
-   
-    public function getAvailable()
+    public function getAvailableByEventId(int $eventId)
     {
         return Event::with('venue')
+            ->where('id', $eventId)
             ->where('status', 'upcoming')
             ->where('start_date', '>', now())
             ->withCount([
@@ -74,7 +73,6 @@ class EventRepository implements EventRepositoryInterface
             ->get();
     }
 
-  
     public function getByVenue(int $venueId)
     {
         return Event::with('venue')
@@ -83,7 +81,6 @@ class EventRepository implements EventRepositoryInterface
             ->get();
     }
 
-    
     public function searchByTitle(string $keyword)
     {
         return Event::where('title', 'like', "%{$keyword}%")
@@ -91,5 +88,8 @@ class EventRepository implements EventRepositoryInterface
             ->get();
     }
 
-
+    public function paginate(int $perPage = 15): 
+    {
+        return Event::with('venue')->latest()->paginate($perPage);
+    }
 }

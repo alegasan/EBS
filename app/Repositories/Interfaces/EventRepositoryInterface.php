@@ -20,7 +20,7 @@ interface EventRepositoryInterface
 
     public function filterByDateRange(string $from, string $to);
 
-    public function getAvailable();
+    public function getAvailableByEventId(int $eventId);
 
     public function getByVenue(int $venueId);
 
