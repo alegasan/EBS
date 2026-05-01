@@ -40,7 +40,7 @@ class BookingService
             return $this->bookingRepo->create([
                 'event_id' => $data['event_id'],
                 'attendee_id' => $data['attendee_id'],
-                'seats_booked' => $requestedSeats,
+                'seats' => $requestedSeats,
                 'status' => 'pending',
                 'booked_at' => now(),
             ]);

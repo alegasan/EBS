@@ -26,5 +26,5 @@ interface EventRepositoryInterface
 
     public function searchByTitle(string $keyword);
 
-    public function Paginate(int $perPage = 15);
+    public function paginate(int $perPage = 15);
 }

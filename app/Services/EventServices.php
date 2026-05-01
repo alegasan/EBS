@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\Interfaces\EventRepositoryInterface;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventServices
 {
@@ -59,5 +60,15 @@ class EventServices
     public function getAvailableSeats($eventId)
     {
         return $this->eventRepo->getAvailableByEventId($eventId);
+    }
+
+    public function searchByTitle($title)
+    {
+        return $this->eventRepo->searchByTitle($title)->paginate();
+    }
+
+    public function getPaginatedEvents(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->eventRepo->paginate($perPage);
     }
 }

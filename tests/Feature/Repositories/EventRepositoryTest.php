@@ -147,7 +147,7 @@ it('can search events by title', function () {
     $this->repo->create(eventData($this->venue->id, ['title' => 'Tech Conference']));
     $this->repo->create(eventData($this->venue->id, ['title' => 'Music Festival']));
 
-    $results = $this->repo->searchByTitle('Tech');
+    $results = $this->repo->searchByTitle('Tech')->get();
 
     expect($results)->toHaveCount(1)
         ->and($results->first()->title)->toBe('Tech Conference');

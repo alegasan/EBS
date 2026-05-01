@@ -84,8 +84,7 @@ class EventRepository implements EventRepositoryInterface
     public function searchByTitle(string $keyword)
     {
         return Event::where('title', 'like', "%{$keyword}%")
-            ->with('venue')
-            ->get();
+            ->with('venue');
     }
 
     public function paginate(int $perPage = 15): LengthAwarePaginator
