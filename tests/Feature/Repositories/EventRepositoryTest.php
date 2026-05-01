@@ -114,13 +114,13 @@ it('can filter events by date range', function () {
 });
 
 it('can get available events', function () {
-    $this->repo->create(eventData($this->venue->id, [
+    $event = $this->repo->create(eventData($this->venue->id, [
         'start_date' => now()->addDays(5),
         'end_date' => now()->addDays(5)->addHours(8),
         'max_attendees' => 100,
     ]));
 
-    $available = $this->repo->getAvailable();
+    $available = $this->repo->getAvailableByEventId($event->id);
 
     expect($available)->toHaveCount(1)
         ->and((int) $available->first()->booked_seats)->toBe(0);

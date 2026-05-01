@@ -88,7 +88,7 @@ class EventRepository implements EventRepositoryInterface
             ->get();
     }
 
-    public function paginate(int $perPage = 15): 
+    public function paginate(int $perPage = 15): LengthAwarePaginator
     {
         return Event::with('venue')->latest()->paginate($perPage);
     }
