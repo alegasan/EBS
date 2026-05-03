@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { useForm } from '@inertiajs/vue3'
 import Heading  from '@/components/Heading.vue'; 
 import { index } from '@/routes/bookings';
 defineOptions({
@@ -18,12 +17,6 @@ defineOptions({
     },
 });
 
-const form = useForm({
-    'event_id': '',
-    'attendee_id': '',
-    'status': 'pending',
-    'booked_at': '',
-});
 
 </script>
 
