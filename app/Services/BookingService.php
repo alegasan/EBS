@@ -55,18 +55,23 @@ class BookingService
             throw new Exception('Only pending bookings can be confirmed');
         }
 
-        return $this->bookingRepo->update($id, ['status' => 'confirmed']);
+        $booking->update(['status' => 'confirmed']);
+        return $booking;
     }
 
     public function cancel(int $id): Booking
     {
+        $booking = $this->bookingRepo->findById($id);
+
+        if ($booking->status === 'cancelled') {
+            throw new Exception('Booking is already cancelled');
+        }
+
         return $this->bookingRepo->cancelBooking($id);
     }
-
 
     public function getAllBookings(int $perPage = 15)
     {
         return $this->bookingRepo->getPaginated($perPage);
     }
-
 }

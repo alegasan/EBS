@@ -69,25 +69,15 @@ class BookingRepository implements BookingRepositoryInterface
     public function cancelBooking(int $id)
     {
         $booking = $this->findById($id);
-
-        if ($booking->status === 'cancelled') {
-            throw new Exception('Booking is already cancelled');
-        }
-
         $booking->update(['status' => 'cancelled']);
 
         return $booking;
-    }
+    }   
 
     public function confirmBooking(int $id)
     {
 
         $booking = $this->findById($id);
-
-        if ($booking->status === 'cancelled') {
-            throw new Exception('Cannot confirm a cancelled booking');
-        }
-
         $booking->update(['status' => 'confirmed']);
 
         return $booking;
