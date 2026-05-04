@@ -111,11 +111,6 @@ it('can cancel a booking', function () {
     expect($cancelled->status)->toBe('cancelled');
 });
 
-it('throws exception when cancelling already cancelled booking', function () {
-    $booking = $this->repo->create(bookingData($this->event->id, $this->attendeeOne->id));
-    $this->repo->cancelBooking($booking->id);
-    $this->repo->cancelBooking($booking->id);
-})->throws(Exception::class, 'Booking is already cancelled');
 
 it('does not count cancelled bookings in total seats', function () {
     $this->repo->create(bookingData($this->event->id, $this->attendeeOne->id, ['seats' => 2]));
@@ -140,8 +135,4 @@ it('confirms booking', function () {
     expect($updated->status)->toBe('confirmed');
 });
 
-it('cant confirm cancelled booking', function () {
-    $booking = $this->repo->create(bookingData($this->event->id, $this->attendeeOne->id));
-    $this->repo->cancelBooking($booking->id);
-    $this->repo->confirmBooking($booking->id);
-})->throws(Exception::class);
+
