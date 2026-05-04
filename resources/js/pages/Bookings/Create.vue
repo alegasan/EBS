@@ -17,7 +17,6 @@ defineOptions({
     },
 });
 
-
 </script>
 
 <template>
