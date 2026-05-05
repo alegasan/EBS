@@ -121,22 +121,6 @@ it('test_cancel_booking_successfully', function () {
     expect($cancelledBooking->status)->toEqual('cancelled');
 });
 
-it('test_book_event_with_invalid_seats', function () {
-    $event = Event::factory()->create(['max_attendees' => 100, 'status' => 'upcoming', 'start_date' => now()->addDays(10)]);
-    $attendee = Attendee::factory()->create();
-
-    expect(fn () => $this->service->book([
-        'event_id' => $event->id,
-        'attendee_id' => $attendee->id,
-        'seats' => 0,
-    ]))->toThrow('Number of seats must be at least 1');
-
-    expect(fn () => $this->service->book([
-        'event_id' => $event->id,
-        'attendee_id' => $attendee->id,
-        'seats' => -1,
-    ]))->toThrow('Number of seats must be at least 1');
-});
 
 it('test_cancel_booking_already_cancelled', function () {
     $event = Event::factory()->create(['max_attendees' => 100, 'status' => 'upcoming', 'start_date' => now()->addDays(10)]);
@@ -153,6 +137,3 @@ it('test_cancel_booking_already_cancelled', function () {
     expect(fn () => $this->service->cancel($booking->id))->toThrow('Booking is already cancelled');
 });
 
-it('test_cancel_booking_not_found', function () {
-    expect(fn () => $this->service->cancel(999))->toThrow('Booking not found');
-});

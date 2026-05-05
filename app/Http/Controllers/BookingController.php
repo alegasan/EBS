@@ -14,11 +14,12 @@ class BookingController extends Controller
     ) {}
 
     public function index()
-    {   
+    {
 
         $perPage = min(max((int) request()->get('per_page', 15), 1), 100);
 
         $bookings = $this->bookingService->getAllBookings($perPage);
+
         return Inertia::render('Bookings/Index',
             [
                 'bookings' => $bookings,
@@ -40,7 +41,9 @@ class BookingController extends Controller
         } catch (Exception $e) {
             report($e);
 
-            return response()->json(['message' => 'Booking failed'], 400);
+            return response()->json([
+                'message' => 'Booking failed',
+            ], 409);
         }
     }
 
@@ -53,10 +56,16 @@ class BookingController extends Controller
                 'message' => 'Booking confirmed successfully',
                 'booking' => $booking,
             ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Booking not found',
+            ], 404);
         } catch (Exception $e) {
+            report($e);
+
             return response()->json([
                 'message' => 'Confirmation failed',
-            ], 400);
+            ], 409);
         }
     }
 
@@ -66,10 +75,16 @@ class BookingController extends Controller
             $this->bookingService->cancel($id);
 
             return response()->json(['message' => 'Booking cancelled successfully']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Booking not found',
+            ], 404);
         } catch (Exception $e) {
+            report($e);
+
             return response()->json([
                 'message' => 'Cancellation failed',
-            ], 400);
+            ], 409);
         }
     }
 }

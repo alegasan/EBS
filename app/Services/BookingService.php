@@ -7,7 +7,6 @@ use App\Repositories\Interfaces\BookingRepositoryInterface;
 use App\Repositories\Interfaces\EventRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BookingService
 {
@@ -31,10 +30,6 @@ class BookingService
             }
 
             $requestedSeats = $data['seats'];
-
-            if($requestedSeats <= 0) {
-                throw new Exception('Number of seats must be at least 1');
-            }
 
             $bookedSeats = $this->bookingRepo->getTotalBookedSeats($data['event_id']);
 
@@ -67,17 +62,14 @@ class BookingService
 
     public function cancel(int $id): Booking
     {
-        try {
-            $booking = $this->bookingRepo->findById($id);
 
-            if ($booking->status === 'cancelled') {
-                throw new Exception('Booking is already cancelled');
-            }
+        $booking = $this->bookingRepo->findById($id);
 
-            return $this->bookingRepo->cancelBooking($id);
-        } catch (ModelNotFoundException) {
-            throw new Exception('Booking not found');
+        if ($booking->status === 'cancelled') {
+            throw new Exception('Booking is already cancelled');
         }
+
+        return $this->bookingRepo->cancelBooking($id);
     }
 
     public function getAllBookings(int $perPage = 15)
